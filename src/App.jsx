@@ -4,18 +4,6 @@ import './App.css'
 const projects = [
   {
     id: 1,
-    title: 'Personal Portfolio',
-    category: 'React',
-    description:
-      'A responsive portfolio presenting my projects, skills, and contact details.',
-    learning:
-      'Practised reusable components, state management, and accessible navigation.',
-    technologies: ['React', 'CSS', 'Vite'],
-    demo: '',
-    source: '',
-  },
-  {
-    id: 2,
     title: 'Tennis Shot Tracker',
     category: 'React',
     description:
@@ -34,7 +22,7 @@ const projects = [
     source: 'https://github.com/hplace99/tennis-shot-tracker',
   },
   {
-    id: 3,
+    id: 2,
     title: 'Job Application Tracker',
     category: 'React',
     description:
@@ -81,6 +69,7 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme)
   const [menuOpen, setMenuOpen] = useState(false)
   const [filter, setFilter] = useState('All')
+
   const menuButtonRef = useRef(null)
 
   const visibleProjects = projects.filter(
@@ -122,7 +111,7 @@ function App() {
         onKeyDown={handleNavigationKeyDown}
       >
         <a className="brand" href="#home" onClick={closeMenu}>
-          Your Name<span>.</span>
+          Hayden Place<span>.</span>
         </a>
 
         <div className="navigation-controls">
@@ -192,7 +181,7 @@ function App() {
             </p>
 
             <h1>
-              Hi, I'm Your Name.
+              Hi, I'm Hayden.
               <br />
               I build for the web.
             </h1>
@@ -224,7 +213,7 @@ function App() {
           <div className="hero-photo">
             <img
               src="/profile.jpg"
-              alt="Portrait of Your Name"
+              alt="Portrait of Hayden Place"
               width="400"
               height="400"
             />
@@ -328,27 +317,21 @@ function App() {
                   <p>{project.learning}</p>
                 </div>
 
-                {(project.demo || project.source) && (
-                  <div className="project-links">
-                    {project.demo && (
-                      <a
-                        href={project.demo}
-                        aria-label={`View ${project.title} live demo`}
-                      >
-                        Live demo ↗
-                      </a>
-                    )}
+                <div className="project-links">
+                  <a
+                    href={project.demo}
+                    aria-label={`View ${project.title} live demo`}
+                  >
+                    Live demo ↗
+                  </a>
 
-                    {project.source && (
-                      <a
-                        href={project.source}
-                        aria-label={`View ${project.title} source code`}
-                      >
-                        Source code ↗
-                      </a>
-                    )}
-                  </div>
-                )}
+                  <a
+                    href={project.source}
+                    aria-label={`View ${project.title} source code`}
+                  >
+                    Source code ↗
+                  </a>
+                </div>
               </article>
             ))}
           </div>
@@ -376,12 +359,23 @@ function App() {
           >
             Email me
           </a>
+
+          <div className="linkedin-link">
+            <a
+              href="https://www.linkedin.com/in/hayden-place/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Connect with Hayden Place on LinkedIn (opens in a new tab)"
+            >
+              Connect on LinkedIn ↗
+            </a>
+          </div>
         </section>
       </main>
 
       <footer className="footer">
         <p>
-          © {new Date().getFullYear()} Your Name.
+          © {new Date().getFullYear()} Hayden Place.
           {' '}Built with React.
         </p>
 
