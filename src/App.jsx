@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
 
 const projects = [
@@ -33,6 +33,18 @@ const projects = [
     demo: 'https://tennis-shot-tracker.vercel.app/',
     source: 'https://github.com/hplace99/tennis-shot-tracker',
   },
+  {
+    id: 3,
+    title: 'Job Application Tracker',
+    category: 'React',
+    description:
+      'A responsive dashboard for organising job applications, tracking interviews and offers, and searching and filtering opportunities.',
+    learning:
+      'Practised reusable React components, form validation, state management, and saving data in browser storage.',
+    technologies: ['React', 'Vite', 'JavaScript', 'CSS'],
+    demo: 'https://application-tracker-phi-beige.vercel.app/',
+    source: 'https://github.com/hplace99/application-tracker',
+  },
 ]
 
 const filters = ['All', 'React', 'JavaScript']
@@ -57,7 +69,7 @@ function getInitialTheme() {
       return savedTheme
     }
   } catch {
-    // Fall back to the system preference if storage is unavailable.
+    // Use the system preference when browser storage is unavailable.
   }
 
   return window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -69,6 +81,7 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme)
   const [menuOpen, setMenuOpen] = useState(false)
   const [filter, setFilter] = useState('All')
+  const menuButtonRef = useRef(null)
 
   const visibleProjects = projects.filter(
     (project) =>
@@ -90,13 +103,24 @@ function App() {
     setMenuOpen(false)
   }
 
+  function handleNavigationKeyDown(event) {
+    if (event.key === 'Escape' && menuOpen) {
+      closeMenu()
+      menuButtonRef.current?.focus()
+    }
+  }
+
   return (
     <div className="portfolio" data-theme={theme}>
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
 
-      <nav className="navigation" aria-label="Main navigation">
+      <nav
+        className="navigation"
+        aria-label="Main navigation"
+        onKeyDown={handleNavigationKeyDown}
+      >
         <a className="brand" href="#home" onClick={closeMenu}>
           Your Name<span>.</span>
         </a>
@@ -117,11 +141,12 @@ function App() {
           </button>
 
           <button
+            ref={menuButtonRef}
             className="menu-toggle"
             type="button"
             aria-expanded={menuOpen}
             aria-controls="navigation-links"
-            onClick={() => setMenuOpen(!menuOpen)}
+            onClick={() => setMenuOpen((isOpen) => !isOpen)}
           >
             {menuOpen ? 'Close menu' : 'Menu'}
           </button>
@@ -132,28 +157,25 @@ function App() {
           className={`navigation-links ${
             menuOpen ? 'is-open' : ''
           }`}
-          onKeyDown={(event) => {
-            if (event.key === 'Escape') {
-              closeMenu()
-              document.querySelector('.menu-toggle')?.focus()
-            }
-          }}
         >
           <li>
             <a href="#about" onClick={closeMenu}>
               About
             </a>
           </li>
+
           <li>
             <a href="#skills" onClick={closeMenu}>
               Skills
             </a>
           </li>
+
           <li>
             <a href="#projects" onClick={closeMenu}>
               Projects
             </a>
           </li>
+
           <li>
             <a href="#contact" onClick={closeMenu}>
               Contact
@@ -247,7 +269,10 @@ function App() {
           </ul>
         </section>
 
-        <section id="projects" aria-labelledby="projects-heading">
+        <section
+          id="projects"
+          aria-labelledby="projects-heading"
+        >
           <p className="eyebrow">Learning through building</p>
           <h2 id="projects-heading">Selected projects</h2>
 
@@ -335,6 +360,7 @@ function App() {
           aria-labelledby="contact-heading"
         >
           <p className="eyebrow">Let's connect</p>
+
           <h2 id="contact-heading">
             Have an opportunity in mind?
           </h2>
@@ -356,8 +382,9 @@ function App() {
       <footer className="footer">
         <p>
           © {new Date().getFullYear()} Your Name.
-          Built with React.
+          {' '}Built with React.
         </p>
+
         <a href="#home">Back to top ↑</a>
       </footer>
     </div>
